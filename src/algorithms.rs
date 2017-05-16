@@ -3,6 +3,7 @@ use std::collections::{HashSet, BinaryHeap, VecDeque};
 use graph::AdjListGraph;
 use std::cmp::{Ord, Ordering};
 use disjoint_set::DisjointSet;
+use std::cmp;
 
 struct PQElt<E>(usize, Option<usize>, Option<Option<E>>);
 
@@ -216,8 +217,25 @@ pub fn ford_fulkerson() {
 
 }
 
-pub fn bellman_ford() {
+pub fn bellman_ford<V: Clone, E: Clone + Ord + Weight>
+(g: &AdjListGraph<V, E>) {
+    let (n, m, v) = (g.size(), g.num_edges(), 0);
+    let inf = 100000000;
 
+    let mut d = vec![inf; n];
+    d[v] = 0;
+
+    for u in g.nodes_iter() {
+        for &(u, v) in g.edges_iter() {
+            if d[u] < inf {
+                d[v] = cmp::min(d[v], d[u] + g.edge_prop(u, v).unwrap().weight());
+            }
+        }
+    }
+
+    for dist in 0..d.len() {
+        println!("{}", d[dist]);
+    }
 }
 
 #[cfg(test)]
