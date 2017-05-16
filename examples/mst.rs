@@ -3,6 +3,7 @@ extern crate rust_graph as graph;
 
 use graph::algorithms::kruskal;
 use graph::algorithms::prim;
+use graph::algorithms::bellman_ford;
 use graph::algorithms::Weight;
 use graph::graph::AdjListGraph;
 use graph::graph::output_graphviz;
@@ -58,6 +59,8 @@ fn main() {
                    4 => 2 => Edge::new(5));
     g.add_edges_with_prop(e);
 
+    output_graphviz(&g, "origin.dot");
+
     // Prim's
     let mst = match prim(&g) {
         Err(e) => panic!(e),
@@ -71,4 +74,6 @@ fn main() {
         Ok(mst) => mst
     };
     output_graphviz(&mst, "kruskal-mst.dot");
+
+    bellman_ford(&g);
 }
