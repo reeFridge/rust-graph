@@ -250,7 +250,7 @@ pub fn graphviz<V: Clone, E: Clone + Ord + Debug>(g: &AdjListGraph<V, E>)
                 None    => "".to_string(),
                 Some(l) => format!("{:?}", l)
             };
-            s.push_str(&*format!("\t{} {} {} [label='{}'];\n", from, arrow, to,
+            s.push_str(&*format!("\t{} {} {} [label=\"{}\"];\n", from, arrow, to,
                                 label));
         }
     }
